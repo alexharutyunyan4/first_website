@@ -12,3 +12,20 @@ library(tidyverse)
 data <- read.csv("solves.csv")
 ```
 
+
+
+
+```{r graphic1}
+
+data2 <- head(data, n = 10)
+
+
+graphic1 <- ggplot(data2, mapping = aes(x=Person,y=Fastest.Solve,fill=Person)) +
+  geom_col()
+graphic1+
+  labs(title="",
+       subtitle="")
+
+
+```
+

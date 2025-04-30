@@ -1,7 +1,6 @@
 ---
-title: "A New Website"
+title: "Home"
 ---
 
-This is a Quarto website.
+This is my website. I researched about speed cuber.
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
