@@ -1,0 +1,14 @@
+---
+title: "Data Analysis"
+editor: visual
+---
+
+
+```{r}
+library(tidyverse)
+
+
+
+data <- read.csv("solves.csv")
+```
+
