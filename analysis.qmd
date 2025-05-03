@@ -220,9 +220,6 @@ worldHDI <- ggplot(data = worldSubset, mapping = aes(x = long, y = lat, group = 
 worldHDI
 
 
-
-
-
 ```
 
 
