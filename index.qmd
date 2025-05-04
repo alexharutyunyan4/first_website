@@ -2,5 +2,49 @@
 title: "Home"
 ---
 
+
 This is my website. I researched about speed cuber.
 
+
+```{r}
+#| echo: false
+#| message: false
+library(magick)
+img <- image_read("img/rubik cube.jpeg")
+img
+```
+
+
+```{r}
+#| echo: false  
+#| message: false
+
+
+
+library(tidyverse)
+
+
+
+data <- read.csv("solves.csv")
+```
+
+```{r graphic1}
+#| echo: false  
+#| message: false
+
+
+data2 <- head(data, n = 10)
+
+
+
+graphic1 <- ggplot(data2, mapping = aes(x=Person,y=Fastest.Solve ,fill=Country)) +
+  geom_col()
+graphic1+
+  labs(title="Person and his/her Fastest.Slove",
+       subtitle="3x3 average",
+       x="Person",
+       y="Fastest.solve"
+       )+
+  theme(axis.text.x = element_text(angle = 75, hjust = 1))
+
+```

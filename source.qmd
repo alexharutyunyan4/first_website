@@ -2,3 +2,11 @@
 title: "Sources"
 editor: visual
 ---
+
+     
+I used Kaggle data.That site was created 2023.You can see that site in this link.
+
+      
+[https://www.kaggle.com/datasets/darshanvss/top-1000-fastest-rubiks-cube-solves](https://www.kaggle.com/datasets/darshanvss/top-1000-fastest-rubiks-cube-solves)
+
+

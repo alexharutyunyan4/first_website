@@ -1,9 +1,15 @@
 ---
 title: "Data Analysis"
 editor: visual
+echo: false  
+message: false 
+warning: false
 ---
 
 ```{r}
+
+
+
 library(tidyverse)
 
 
@@ -11,26 +17,12 @@ library(tidyverse)
 data <- read.csv("solves.csv")
 ```
 
-```{r graphic1}
-
-data2 <- head(data, n = 10)
 
 
-graphic1 <- ggplot(data2, mapping = aes(x=Person,y=Fastest.Solve ,fill=Country)) +
-  geom_col()
-graphic1+
-  labs(title="Person and his/her Fastest.Slove",
-       subtitle="3x3 average",
-       x="Person",
-       y="Fastest.solve"
-       )
-
-
-```
 
 ```{r graphic2}
 data3 <- data %>%
-  filter(Country == c("USA","Mexico" ,"Canada"))
+  filter(Country == c("USA","Canada"))
 
 
 graphic2 <- ggplot(data3,mapping = aes(x=Fastest.Solve,color = Country, fill = Country)) +
@@ -40,10 +32,13 @@ graphic2+
  labs(title="North America",
        subtitle="3x3 average",
        x="Fastest Solve",
-       y="Frequency"
-       )
+       y="Frequency",
+      caption = "Countries with less than 2 observations not included.")
 
 ```
+
+
+
 
 ```{r graplic3}
 
@@ -58,9 +53,12 @@ graphic3+
  labs(title="South America",
        subtitle="3x3 average",
        x="Fastest Solve",
-       y="Frequency"
-       )
+       y="Frequency",
+       caption = "Countries with less than 2 observations not included." )
 ```
+
+
+
 
 ```{r graphic4}
 data5 <- data %>%
@@ -72,13 +70,14 @@ graphic4<- ggplot(data5,mapping = aes(x=Fastest.Solve,color = Country, fill = Co
   geom_density(linewidth = 0.75, alpha = 0.007)
 
 graphic4+
- labs(title="
-Australia",
+ labs(title="Australia",
        subtitle="3x3 average",
        x="Fastest Solve",
-       y="Frequency"
-       )
+       y="Frequency",
+      caption = "Countries with less than 2 observations not included." )
 ```
+
+
 
 ```{r graphic5}
 data6 <- data %>%
@@ -86,56 +85,82 @@ data6 <- data %>%
 
 
 graphic5<- ggplot(data6,mapping = aes(x=Fastest.Solve,color = Country, fill = Country)) +
-  geom_density(linewidth = 0.75, alpha = 0.007)
-
+ geom_density(bins = 500,alpha=0.5)
 
 graphic5+
  labs(title="
 Asia",
        subtitle="3x3 average",
        x="Fastest Solve",
-       y="Frequency"
-       )
+       y="Frequency",
+      caption = "Countries with less than 2 observations not included." )
 ```
+
+
 
 ```{r graphic6}
 data7 <- data %>%
-  filter(Country == c( "Denmark","Netherlands","Poland"))
+  filter(Country == c("China","Philippines","Georgia","India","Indonesia", "Korea","Malayysia", "Russia","Singapore","Taiwan"))
 
 
 
-graphic6<- ggplot(data7,mapping = aes(x=Fastest.Solve,color = Country, fill = Country)) +
+graphic6 <- ggplot(data7,mapping = aes(x=Fastest.Solve,color = Country, fill = Country))  +
   geom_density(linewidth = 0.75, alpha = 0.007)
 
+
 graphic6+
- labs(title="
-",
+ labs(title="Asia",
        subtitle="3x3 average",
        x="Fastest Solve",
-       y="Frequency"
-       )
+       y="Frequency",
+      caption = "Countries with less than 2 observations not included.")
+
 ```
 
 
 
 ```{r graphic7}
+data8 <- data %>%
+  filter(Country == c( "Denmark","Netherlands","Poland"))
 
-data8<- data
 
 
-graphic7 <- ggplot(data8, mapping = aes(x=Country,y=Fastest.Solve )) +
-  geom_col()
+graphic7<- ggplot(data8,mapping = aes(x=Fastest.Solve,color = Country, fill = Country)) +
+ geom_density(bins = 500,alpha=0.5)
+
 graphic7+
-  labs(title="Person and his/her Fastest.Slove",
+ labs(title="Europe",
        subtitle="3x3 average",
-       x="Person",
-       y="Fastest.solve"
-       )
+       x="Fastest Solve",
+       y="Frequency",
+      caption = "Countries with less than 2 observations not included." )
+       
+```
 
+
+
+```{r graphic8}
+
+data9 <- data %>%
+  filter(Country == c( "Denmark","Netherlands","Poland","Finland","France","Germany","Lithuania","Norway", "United Kingdom", "Switzerland","Sweaden","Spain"))
+
+
+graphic8 <- ggplot(data9,mapping = aes(x=Fastest.Solve,color = Country, fill = Country))  +
+  geom_density(linewidth = 0.75, alpha = 0.007)
+
+graphic8+
+      labs(title="Europe",
+        subtitle="3x3 average",
+       x="Person",
+       y="Fastest.solve",
+     caption = "Countries with less than 2 observations not included.")
+       
 
 ```
 
-```{r}
+
+
+```{r graphic9}
 library(dplyr)
 library(stringr)
 library(ggplot2)
@@ -157,46 +182,36 @@ worldplot <- ggplot() +
   geom_polygon(data = world, aes(x=long, y = lat, group = group)) + 
   coord_fixed(1.3)
 
-worldgovt <- read.csv("./world-govt.csv", header = TRUE)
-worldgovt <- select(worldgovt, region = indicator, "HDI" = `human.development.index`, "CC" = ISO.Country.code)
-head(worldgovt)
+map_data <- read.csv("solves.csv", header = TRUE)
+map_data <- map_data %>%
+  mutate(region = Country)
 
-##              region   HDI  CC
-## 1       Afghanistan 0.498 AFG
-## 2           Albania 0.785 ALB
-## 3           Algeria 0.754 DZA
-## 4           Andorra 0.858 AND
-## 5            Angola 0.581 AGO
-## 6 Antigua & Barbuda 0.780 ATG
+map_data <- map_data %>% 
+   group_by(region) %>% 
+   slice_min(order_by = Fastest.Solve)
+
+
 
 ## Check for disagreements between the two datasets
-diff <- setdiff(world$region, worldgovt$region)
+diff <- setdiff(world$region, map_data$region)
+
+## Korea -> South Korea
+## United Kingdom -> UK
+## 
+
 
 ## Clean the dataset accordingly
-worldgovt <- worldgovt %>%
+map_data <- map_data %>%
   ## Recode certain entries
-  mutate(region = recode(str_trim(region), "United States" = "USA",
-                            "United Kingdom" = "UK",
-                            "Korea (Rep.)" = "South Korea",
+  mutate(region = recode(str_trim(region), "United Kingdom" = "UK",
+                            "Korea" = "South Korea",
                             "Congo (Dem. Rep.)" = "Democratic Republic of the Congo",
-                            "Congo (Rep.)" = "Republic of Congo")) %>%
-  ## Editing the "North Korea" entry is a little trickier for some reason
-  mutate(region = case_when((CC == "PRK") ~ "North Korea",
-                               TRUE ~ as.character(.$region)))
+                            "Congo (Rep.)" = "Republic of Congo")) 
 
-## Make the HDI numeric
-worldgovt$HDI <- as.numeric(as.character(worldgovt$HDI))
+worldSubset <- inner_join(world, map_data, by = "region")
 
-worldSubset <- inner_join(world, worldgovt, by = "region")
-head(worldSubset)
 
-##       long      lat group order      region subregion   HDI  CC
-## 1 74.89131 37.23164     2    12 Afghanistan      <NA> 0.498 AFG
-## 2 74.84023 37.22505     2    13 Afghanistan      <NA> 0.498 AFG
-## 3 74.76738 37.24917     2    14 Afghanistan      <NA> 0.498 AFG
-## 4 74.73896 37.28564     2    15 Afghanistan      <NA> 0.498 AFG
-## 5 74.72666 37.29072     2    16 Afghanistan      <NA> 0.498 AFG
-## 6 74.66895 37.26670     2    17 Afghanistan      <NA> 0.498 AFG
+
 
 ## Let's ditch many of the unnecessary elements
 plain <- theme(
@@ -210,22 +225,14 @@ plain <- theme(
   plot.title = element_text(hjust = 0.5)
 )
 
-worldHDI <- ggplot(data = worldSubset, mapping = aes(x = long, y = lat, group = group)) + 
+solve <- ggplot(data = worldSubset, mapping = aes(x = long, y = lat, group = group)) + 
   coord_fixed(1.3) +
-  geom_polygon(aes(fill = HDI)) +
+  geom_polygon(aes(fill = Fastest.Solve)) +
   scale_fill_distiller(palette ="RdBu", direction = -1) + # or direction=1
-  ggtitle("Global Human Development Index (HDI)") +
+  ggtitle("Solves by Country") +
   plain
 
-worldHDI
+solve
 
 
 ```
-
-
-
-
-
-
-
-

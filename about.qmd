@@ -2,5 +2,7 @@
 title: "About"
 ---
 
-Alex
+Hi my name is Alex.I select this project because I like speed cuber,rubik՚s cube and 
+I solve the rubik's cube in 32 seconds.I have the so many types of rubik's cube.For example`2x2,3x3,4x4,5x5,megaminx,skewb,pyraminx,mirror cube.
+
 
