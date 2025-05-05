@@ -6,19 +6,30 @@ message: false
 warning: false
 ---
 
-```{r}
-
-
-
+```{r read_data}
+#| echo: false  
+#| message: false
+#| warning: false 
 library(tidyverse)
-
-
-
+library(magick)
 data <- read.csv("solves.csv")
 ```
 
 
+```{r display}
+library(magick)
+img2 <- image_read("map.jpeg")
 
+img2
+
+```
+
+
+The top 3 fastest Rubik's cube solvers countries:
+
+1.China
+2.USA
+3.Australia
 
 ```{r graphic2}
 data3 <- data %>%
@@ -37,9 +48,6 @@ graphic2+
 
 ```
 
-
-
-
 ```{r graplic3}
 
 data4 <- data %>%
@@ -56,9 +64,6 @@ graphic3+
        y="Frequency",
        caption = "Countries with less than 2 observations not included." )
 ```
-
-
-
 
 ```{r graphic4}
 data5 <- data %>%
@@ -77,15 +82,13 @@ graphic4+
       caption = "Countries with less than 2 observations not included." )
 ```
 
-
-
 ```{r graphic5}
 data6 <- data %>%
   filter(Country == c("China","Philippines","Taiwan" ))
 
 
 graphic5<- ggplot(data6,mapping = aes(x=Fastest.Solve,color = Country, fill = Country)) +
- geom_density(bins = 500,alpha=0.5)
+  geom_density(linewidth = 0.75, alpha = 0.007)
 
 graphic5+
  labs(title="
@@ -95,8 +98,6 @@ Asia",
        y="Frequency",
       caption = "Countries with less than 2 observations not included." )
 ```
-
-
 
 ```{r graphic6}
 data7 <- data %>%
@@ -117,8 +118,6 @@ graphic6+
 
 ```
 
-
-
 ```{r graphic7}
 data8 <- data %>%
   filter(Country == c( "Denmark","Netherlands","Poland"))
@@ -137,8 +136,6 @@ graphic7+
        
 ```
 
-
-
 ```{r graphic8}
 
 data9 <- data %>%
@@ -155,84 +152,5 @@ graphic8+
        y="Fastest.solve",
      caption = "Countries with less than 2 observations not included.")
        
-
-```
-
-
-
-```{r graphic9}
-library(dplyr)
-library(stringr)
-library(ggplot2)
-library(maps)
-
-world <- map_data("world")
-head(world)
-
-##        long      lat group order region subregion
-## 1 -69.89912 12.45200     1     1  Aruba      <NA>
-## 2 -69.89571 12.42300     1     2  Aruba      <NA>
-## 3 -69.94219 12.43853     1     3  Aruba      <NA>
-## 4 -70.00415 12.50049     1     4  Aruba      <NA>
-## 5 -70.06612 12.54697     1     5  Aruba      <NA>
-## 6 -70.05088 12.59707     1     6  Aruba      <NA>
-
-world <- map_data("world")
-worldplot <- ggplot() +
-  geom_polygon(data = world, aes(x=long, y = lat, group = group)) + 
-  coord_fixed(1.3)
-
-map_data <- read.csv("solves.csv", header = TRUE)
-map_data <- map_data %>%
-  mutate(region = Country)
-
-map_data <- map_data %>% 
-   group_by(region) %>% 
-   slice_min(order_by = Fastest.Solve)
-
-
-
-## Check for disagreements between the two datasets
-diff <- setdiff(world$region, map_data$region)
-
-## Korea -> South Korea
-## United Kingdom -> UK
-## 
-
-
-## Clean the dataset accordingly
-map_data <- map_data %>%
-  ## Recode certain entries
-  mutate(region = recode(str_trim(region), "United Kingdom" = "UK",
-                            "Korea" = "South Korea",
-                            "Congo (Dem. Rep.)" = "Democratic Republic of the Congo",
-                            "Congo (Rep.)" = "Republic of Congo")) 
-
-worldSubset <- inner_join(world, map_data, by = "region")
-
-
-
-
-## Let's ditch many of the unnecessary elements
-plain <- theme(
-  axis.text = element_blank(),
-  axis.line = element_blank(),
-  axis.ticks = element_blank(),
-  panel.border = element_blank(),
-  panel.grid = element_blank(),
-  axis.title = element_blank(),
-  panel.background = element_rect(fill = "white"),
-  plot.title = element_text(hjust = 0.5)
-)
-
-solve <- ggplot(data = worldSubset, mapping = aes(x = long, y = lat, group = group)) + 
-  coord_fixed(1.3) +
-  geom_polygon(aes(fill = Fastest.Solve)) +
-  scale_fill_distiller(palette ="RdBu", direction = -1) + # or direction=1
-  ggtitle("Solves by Country") +
-  plain
-
-solve
-
 
 ```

@@ -3,10 +3,8 @@ title: "Sources"
 editor: visual
 ---
 
-     
-I used Kaggle data.That site was created 2023.You can see that site in this link.
+I used data from Kaggle called "Top 1000 Fastest Rubik's Cube Solves". The dataset was created 2023.
 
-      
-[https://www.kaggle.com/datasets/darshanvss/top-1000-fastest-rubiks-cube-solves](https://www.kaggle.com/datasets/darshanvss/top-1000-fastest-rubiks-cube-solves)
+You can see that site in this link.
 
-
+<https://www.kaggle.com/datasets/darshanvss/top-1000-fastest-rubiks-cube-solves>

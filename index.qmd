@@ -1,21 +1,30 @@
 ---
 title: "Home"
 ---
+<div style="text-align: center;">
 
 
-This is my website. I researched about speed cuber.
+This is my website. My project is about speed cubers and where they come from.
 
 
-```{r}
+```{r load_image}
 #| echo: false
 #| message: false
 library(magick)
+
+# Read the image
 img <- image_read("img/rubik cube.jpeg")
-img
+
+# Resize to smaller dimensions (e.g., 400 pixels wide)
+img_small <- image_resize(img, "400x")  # "400x" keeps aspect ratio
+
+# Display
+img_small
+
 ```
 
 
-```{r}
+```{r load_data}
 #| echo: false  
 #| message: false
 
@@ -28,23 +37,61 @@ library(tidyverse)
 data <- read.csv("solves.csv")
 ```
 
-```{r graphic1}
+
+
+```{r create_graphic}
 #| echo: false  
 #| message: false
+#| 
+library(dplyr)
+library(ggplot2)
+library(ggimage)
+
+# Map countries to URLs of flag icons (e.g., via FlagCDN or local PNGs)
+flag_urls <- c(
+  "USA" = "https://flagcdn.com/w40/us.png",
+  "Canada" = "https://flagcdn.com/w40/ca.png",
+  "Japan" = "https://flagcdn.com/w40/jp.png",
+  "UK" = "https://flagcdn.com/w40/gb.png",
+  "Poland" = "https://flagcdn.com/w40/pl.png",
+  "France" = "https://flagcdn.com/w40/fr.png",
+  "Brazil" = "https://flagcdn.com/w40/br.png",
+  "Australia" = "https://flagcdn.com/w40/au.png",
+  "China" = "https://flagcdn.com/w40/cn.png"
+)
+
+# Prepare your data
+data2 <- data %>%
+  group_by(Person) %>%
+  slice_min(Fastest.Solve, with_ties = FALSE) %>%
+  ungroup() %>%
+  arrange(Fastest.Solve) %>%
+  slice_head(n = 10) %>%
+  mutate(FlagURL = flag_urls[Country])
+
+# Plot with flag images and very, very light blue background
+graphic1 <- ggplot(data2, aes(x = reorder(Person, Fastest.Solve), y = Fastest.Solve, fill = Country)) +
+  geom_col() +
+  geom_image(aes(image = FlagURL), y = data2$Fastest.Solve + 0.3, size = 0.15) +  # adjust `size` and offset `y`
+  labs(
+    title = "Top 10 Fastest Solvers (One Entry per Person)",
+    subtitle = "3x3 Average",
+    x = "\nPerson",
+    y = "Fastest Solve\n"
+  ) +
+  theme_minimal() +  # start with a minimal theme
+  theme(
+    axis.text.x = element_text(angle = 60, hjust = 1),
+    plot.background = element_rect(fill = "#E0F7FA", color = NA),  # very, very light blue
+    panel.background = element_rect(fill = "#E0F7FA", color = NA)  # panel background to match
+  )
+
+graphic1
 
 
-data2 <- head(data, n = 10)
-
-
-
-graphic1 <- ggplot(data2, mapping = aes(x=Person,y=Fastest.Solve ,fill=Country)) +
-  geom_col()
-graphic1+
-  labs(title="Person and his/her Fastest.Slove",
-       subtitle="3x3 average",
-       x="Person",
-       y="Fastest.solve"
-       )+
-  theme(axis.text.x = element_text(angle = 75, hjust = 1))
 
 ```
+The fastest solver is Yusheng Du. He is from China but the most solvers in the top 10 are from the USA.
+
+</div>
+
