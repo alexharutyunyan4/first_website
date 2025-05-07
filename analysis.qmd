@@ -15,7 +15,6 @@ library(magick)
 data <- read.csv("solves.csv")
 ```
 
-
 ```{r display}
 library(magick)
 img2 <- image_read("map.jpeg")
@@ -24,12 +23,19 @@ img2
 
 ```
 
-
 The top 3 fastest Rubik's cube solvers countries:
 
-1.China
-2.USA
-3.Australia
+
+
+**1.  China **
+
+**2.  USA **
+
+**3.  Australia **
+
+
+
+# Number of Solvers per Continent
 
 ```{r graphic2}
 data3 <- data %>%
@@ -67,7 +73,7 @@ graphic3+
 
 ```{r graphic4}
 data5 <- data %>%
-  filter(Country == c("Australia" ))
+  filter(Country == c("Australia"))
 
 
 
@@ -139,7 +145,7 @@ graphic7+
 ```{r graphic8}
 
 data9 <- data %>%
-  filter(Country == c( "Denmark","Netherlands","Poland","Finland","France","Germany","Lithuania","Norway", "United Kingdom", "Switzerland","Sweaden","Spain"))
+  filter(Country == c( "Denmark","Netherlands","Poland","Finland","France","Germany","Norway", "United Kingdom", "Switzerland","Sweaden","Spain"))
 
 
 graphic8 <- ggplot(data9,mapping = aes(x=Fastest.Solve,color = Country, fill = Country))  +

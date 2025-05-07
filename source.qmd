@@ -3,7 +3,7 @@ title: "Sources"
 editor: visual
 ---
 
-I used data from Kaggle called "Top 1000 Fastest Rubik's Cube Solves". The dataset was created 2023.
+I used data from Kaggle called "Top 1000 Fastest Rubik's Cube Solves". The dataset was created  2023.
 
 You can see that site in this link.
 

@@ -6,6 +6,8 @@ title: "Home"
 
 This is my website. My project is about speed cubers and where they come from.
 
+My project is important because that can be motivation in the future.
+
 
 ```{r load_image}
 #| echo: false

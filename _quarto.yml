@@ -2,7 +2,7 @@ project:
   type: website
 
 website:
-  title: "Rubik's cube analyses"
+  title: "Rubik's Cube Analysis"
   navbar:
     left:
       - href: index.qmd
@@ -12,7 +12,7 @@ website:
       - href: about.qmd
 format:
   html:
-    theme: cosmo
+    theme: materia
     css: styles.css
     toc: true
 
